@@ -201,13 +201,21 @@ static void make_connection_id(struct sockaddr_in* addr, char* dest) {
 }
 
 
-static void handle_connect(struct sockaddr_in* addr, struct connection_request* req) {
-    int64_t t = ntohl(req->protocol_id);
+int64_t swap_int64( int64_t val )
+{
+    val = ((val << 8) & 0xFF00FF00FF00FF00ULL ) | ((val >> 8) & 0x00FF00FF00FF00FFULL );
+    val = ((val << 16) & 0xFFFF0000FFFF0000ULL ) | ((val >> 16) & 0x0000FFFF0000FFFFULL );
+    return (val << 32) | ((val >> 32) & 0xFFFFFFFFULL);
+}
 
-    if (ntohl(req->protocol_id) != 0x41727101980)
+static void handle_connect(struct sockaddr_in* addr, struct connection_request* req) {
+    int64_t t = swap_int64(req->protocol_id);
+
+    if (swap_int64(req->protocol_id) != 0x41727101980)
         return;
     
-    LOG_DEBUG("PKT CONNECT");
+    
+
 }
 
 static void handle_announce(struct sockaddr_in* addr, struct announce_request* req) {

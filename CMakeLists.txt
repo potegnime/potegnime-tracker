@@ -11,6 +11,7 @@ set(SOURCES
     src/threadpool.c
     src/udp_server.c
     src/tracker_logic.c
+    src/hashmap.c
 )
 
 find_package(Threads REQUIRED)
