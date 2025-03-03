@@ -15,11 +15,13 @@
 
 
 static pthread_mutex_t mutex;
+
+
 static hashmap_t* user_map;
 static hashmap_t* torrent_map;
 
 static uint64_t hash_key(const char* key);
-static int compare(const char* key, const char* key2);
+static inline int compare(const char* key, const char* key2);
 
 void tracker_logic_init() {
     
@@ -97,7 +99,7 @@ static uint64_t hash_key(const char* key) {
     return hash % TABLE_SIZE;
 }
 
-static int compare(const char* key, const char* key2) {
+static inline int compare(const char* key, const char* key2) {
     return strncmp(key, key2, 20);
 }
 

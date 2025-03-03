@@ -44,27 +44,26 @@ void hashmap_insert(hashmap_t* hashmap, const char* key, void* value) {
             current_node = current_node->next_node;
         }
 
-    } else {
-        node_t* new_node = (node_t*)malloc(sizeof(node_t));
-        if (!new_node) {
-            LOG_ERROR("hashmap_insert(): new_node == NULL");
-            return;
-        }
-
-        strncpy(new_node->key, key, 20);
-        new_node->value = value;
-        new_node->next_node = NULL;
-    
-        if (hashmap->nodes[index] == NULL) {
-            hashmap->nodes[index] = new_node;
-            return;
-        }
-       
-        while(current_node->next_node != NULL) {
-            current_node = current_node->next_node;
-        }
-        current_node->next_node = new_node;
     }
+    node_t* new_node = (node_t*)malloc(sizeof(node_t));
+    if (!new_node) {
+        LOG_ERROR("hashmap_insert(): new_node == NULL");
+        return;
+    }
+
+    strncpy(new_node->key, key, 20);
+    new_node->value = value;
+    new_node->next_node = NULL;
+    
+    if (hashmap->nodes[index] == NULL) {
+        hashmap->nodes[index] = new_node;
+        return;
+    }
+       
+    while(current_node->next_node != NULL) {
+        current_node = current_node->next_node;
+    }
+    current_node->next_node = new_node;
 
 }
 
